@@ -14,12 +14,20 @@ gulp.task('jshint', function () {
 
 
 gulp.task('build-css', function () {
-return gulp.src('source/scss/**/*.scss')
-  .pipe(sourcemaps.init()) // Process the original sources
-  .pipe(sass())
-  .pipe(sourcemaps.write()) // Add the map to modified source.
-  .pipe(gulp.dest('public/assets/stylesheets'));
+  return gulp.src('source/scss/**/*.scss')
+    .pipe(sourcemaps.init()) // Process the original sources
+    .pipe(sass())
+    .pipe(sourcemaps.write()) // Add the map to modified source.
+    .pipe(gulp.dest('public/assets/stylesheets'));
 });
+
+gulp.task('build-js', function () {
+  return gulp.src('source/javascript/**/*.js')
+    .pipe(sourcemaps.init())
+    .pipe(concat(bundle.js))
+    .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop())
+    .pipe(sourcemaps.rite())
+    .pipe(gulp.dest('public/assets/javascript'));
 });
 
 gulp.task('watch', function () {
